@@ -12,6 +12,7 @@
 #include <queue>
 
 #include "MyRandom.h"
+#include "Utils.h"
 
 int Grapher::write(std::string filename) {
     std::ofstream file(filename);
@@ -392,4 +393,75 @@ int Grapher::getNorm(std::vector<int> x) {
         res += i;
     }
     return res;
+}
+
+std::vector<std::pair<Path, long double> > Grapher::samplingPath(std::vector<int> &cost) {
+    std::vector<std::pair<std::vector<int>, std::vector<int> > >dist;
+    dist.resize(pathQueries.size());
+    for (int i = 0; i < pathQueries.size(); i++) {
+        dist[i] = dijkstra(pathQueries[i].second, cost);
+    }
+    std::vector<std::pair<Path, long double> > paths;
+
+    int num = getNumSampling();
+    while (num--) {
+        int id = MyRandom::randInt(0, pathQueries.size());
+        long double prob = 1.0 / pathQueries.size();
+        int s = pathQueries[id].first, t = pathQueries[id].second;
+        if (dist[id].first[s] >= Constants::T) {
+            continue;
+        }
+        Path path;
+        for (int u = s; u != t;) {
+            int i = dist[id].second[u];
+            assert(i != -1);
+            int v = edges[i].from(u);
+            if (MyRandom::bernouli(Constants::alpha)) {
+                path.push_back(i);
+                prob *= Constants::alpha;
+                u = v;
+                continue;
+            }
+            std::vector<int> ds;
+            for (int j : l[u]) {
+                int x = edges[j].from(u), w = edges[j].getWeight(cost[j]);
+                if (dist[id].first[x] <= dist[id].first[u]) {
+                    ds.push_back(j);
+                }
+            }
+            if (ds.empty()) {
+                path.push_back(i);
+                u = v;
+                continue;
+            }
+            int chose = ds[MyRandom::randInt(0, ds.size())];
+            path.push_back(chose);
+            u = edges[chose].from(u);
+            prob *= (1 - Constants::alpha) / ds.size();
+        }
+        paths.push_back({path, prob});
+    }
+    return paths;
+}
+
+int Grapher::maximumDegree() {
+    int res = 0;
+    for (int i = 0; i < n; i++) {
+        if (res < l[i].size()) {
+            res = l[i].size();
+        }
+    }
+    return res;
+}
+
+int Grapher::getNumSampling()  {
+    return 100000;
+}
+
+long long Grapher::budgetFunction(Path path, std::vector<int> cost) {
+    long long pot = 0;
+    for (int i : path) {
+        pot += edges[i].getWeight(cost[i]);
+    }
+    return std::min(pot, 1LL * Constants::T);
 }

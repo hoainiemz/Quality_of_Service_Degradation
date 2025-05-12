@@ -15,4 +15,8 @@ add_executable(Quality_of_Service_Degradation main.cpp
         IterativeGreedy.cpp
         IterativeGreedy.h
         AdaptiveTrading.cpp
-        AdaptiveTrading.h)
+        AdaptiveTrading.h
+        SamplingApproach.cpp
+        SamplingApproach.h
+        Utils.cpp
+        Utils.h)

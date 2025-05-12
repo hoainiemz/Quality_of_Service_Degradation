@@ -6,6 +6,7 @@
 #include <vector>
 #include <assert.h>
 #include "Constants.h"
+#include "MyRandom.h"
 
 #ifndef GRAPHER_H
 #define GRAPHER_H
@@ -62,6 +63,8 @@ private:
 
     void makeWeighted();
 
+    int maximumDegree();
+
     std::pair<std::vector<int>, std::vector<int> > dijkstra(int x, std::vector<int> cost = std::vector<int>());
 public:
     Grapher() {
@@ -100,6 +103,12 @@ public:
     int getNorm(std::vector<int> x);
 
     long long budgetFunction(std::vector<Path> &paths, std::vector<int> cost);
+
+    long long budgetFunction(Path path, std::vector<int> cost);
+
+    std::vector<std::pair<Path, long double> > samplingPath(std::vector<int> &cost);
+
+    int getNumSampling();
 
     friend std::istream& operator>>(std::istream& in, Grapher& obj);
     friend std::ostream& operator<<(std::ostream& os, const Grapher& obj);
