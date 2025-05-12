@@ -1,0 +1,19 @@
+# ninja log v6
+2	501	1746725283242752413	CMakeFiles/Quality_of_Service_Degradation.dir/MyRandom.cpp.o	beca3807ca0ae4c9
+2	14	1746776685091600539	CMakeFiles/Quality_of_Service_Degradation.dir/Constants.cpp.o	5d3f81be1c51e992
+2	304	1746777537200301509	CMakeFiles/Quality_of_Service_Degradation.dir/IterativeSolution.cpp.o	2d7e55d561c2e5df
+1	684	1746777025178805188	CMakeFiles/Quality_of_Service_Degradation.dir/Grapher.cpp.o	ba1be6a5ee9b3557
+304	350	1746777652013151874	Quality_of_Service_Degradation	e0bfe021d8787a0a
+1	303	1746777651710149678	CMakeFiles/Quality_of_Service_Degradation.dir/main.cpp.o	f7a35764789de5be
+1	283	1746777580118623935	CMakeFiles/Quality_of_Service_Degradation.dir/IterativeGreedy.cpp.o	5b789fd2d2459b22
+2	280	1746777612134860844	CMakeFiles/Quality_of_Service_Degradation.dir/AdaptiveTrading.cpp.o	6988fb594fb04b6c
+3	22	1746779213428747517	CMakeFiles/Quality_of_Service_Degradation.dir/Constants.cpp.o	2dad415cbe905f23
+2	565	1746779213427747527	CMakeFiles/Quality_of_Service_Degradation.dir/main.cpp.o	142e405e16827944
+4	568	1746779213429747508	CMakeFiles/Quality_of_Service_Degradation.dir/AdaptiveTrading.cpp.o	bb745b07dc6fa0ab
+4	685	1746779213429747508	CMakeFiles/Quality_of_Service_Degradation.dir/IterativeGreedy.cpp.o	172f23addd2ee71c
+3	768	1746779213428747517	CMakeFiles/Quality_of_Service_Degradation.dir/IterativeSolution.cpp.o	8d7336d6fe59e3e4
+3	768	1746779213428747517	CMakeFiles/Quality_of_Service_Degradation.dir/MyRandom.cpp.o	2153de8a09e3f3fd
+3	1057	1746779213428747517	CMakeFiles/Quality_of_Service_Degradation.dir/Grapher.cpp.o	ecdf21443734b958
+1057	1109	1746779214482737453	Quality_of_Service_Degradation	e0bfe021d8787a0a
+3	722	1747013861708221206	CMakeFiles/Quality_of_Service_Degradation.dir/main.cpp.o	142e405e16827944
+722	880	1747013862427198404	Quality_of_Service_Degradation	e0bfe021d8787a0a
