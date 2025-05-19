@@ -47,6 +47,14 @@ public:
         return weight[i];
     }
 
+    double getLinearWeight(double x) {
+        return x * (weight[1] - weight[0]) + weight[0];
+    }
+
+    int getLinearTan() {
+        return weight[1] - weight[0];
+    }
+
     int from(int x);
 
     friend std::istream& operator>>(std::istream& in, Edge& p);
@@ -64,12 +72,23 @@ private:
     void makeWeighted();
 
     int maximumDegree();
-
-    std::pair<std::vector<int>, std::vector<int> > dijkstra(int x, std::vector<int> cost = std::vector<int>());
 public:
     Grapher() {
         n = 0;
         m = 0;
+    }
+    std::pair<std::vector<int>, std::vector<int> > dijkstra(int x, std::vector<int> cost = std::vector<int>());
+
+    std::pair<std::vector<double>, std::vector<int> > dijkstra(double x, std::vector<double> cost = std::vector<double>());
+
+    Path getUnblockedPath(std::vector<int> &cost);
+
+    std::vector<int> getB() {
+        std::vector<int> res(m, 0);
+        for (int i = 0; i < m; i++) {
+            res[i] = edges[i].getWeight().size() - 1;
+        }
+        return res;
     }
 
     void genPathQueries();
@@ -84,12 +103,22 @@ public:
 
     std::vector<Path> getPotentialPaths(std::vector<int> &cost);
 
+    Path getUnblockedPath(std::vector<double> &cost);
+
+    int getLinearMaxSlope();
+
+    bool isFeasible(std::vector<int> &cost);
+
     int getM() {
         return m;
     }
 
     int getN() {
         return n;
+    }
+
+    int getH() {
+        return Constants::T;
     }
 
     Edge &getEdge(int i) {
@@ -106,7 +135,7 @@ public:
 
     long long budgetFunction(Path path, std::vector<int> cost);
 
-    std::vector<std::pair<Path, long double> > samplingPath(std::vector<int> &cost);
+    std::vector<std::pair<Path, double> > samplingPath(std::vector<int> &cost);
 
     int getNumSampling();
 

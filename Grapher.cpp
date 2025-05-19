@@ -98,12 +98,12 @@ void Grapher::makeWeighted() {
 }
 
 int Edge::from(int x) {
-    assert(x == u || x == v);
+    // assert(x == u || x == v);
     return (x == u) ? v : u;
 }
 
 void Edge::makeWeighted() {
-    int type = MyRandom::randInt(0, 4);
+    int type = MyRandom::randInt(0, Constants::edgeType);
     int a, b, c, d, e;
     switch (type) {
         case 0:
@@ -197,6 +197,51 @@ std::pair<std::vector<int>, std::vector<int> > Grapher::dijkstra(int x, std::vec
     return {dist, prev};
 }
 
+std::pair<std::vector<double>, std::vector<int> > Grapher::dijkstra(double x, std::vector<double> cost) {
+    assert(Constants::edgeType == 1);
+    std::vector<double> dist(n, Constants::T);
+    std::vector<int> prev(n, -1);
+    std::priority_queue<std::pair<double, int> > queue;
+    if (cost.empty()) {
+        cost.resize(m, 0);
+        fill(cost.begin(), cost.end(), 0);
+    }
+    dist[x] = 0;
+    queue.push({0, x});
+    while (!queue.empty()) {
+        std::pair<double, int> u = queue.top();
+        queue.pop();
+        if (abs(dist[u.second] - u.first) > Constants::eps) {
+            continue;
+        }
+        for (int id : l[u.second]) {
+            int v = edges[id].from(u.second), k = std::min(Constants::T * 1.0, dist[u.second] + edges[id].getLinearWeight(cost[id]));
+            if (dist[v] > k && abs(dist[v] - k) > Constants::eps) {
+                dist[v] = k;
+                prev[v] = id;
+                queue.push({k, v});
+            }
+        }
+    }
+    return {dist, prev};
+}
+std::vector<int> Grapher::getUnblockedPath(std::vector<double> &cost) {
+    for (int i = 0; i < pathQueries.size(); i++) {
+        int u = pathQueries[i].first, v = pathQueries[i].second;
+        std::pair<std::vector<double>, std::vector<int> > p = dijkstra(u, cost);
+        if (abs(p.first[v] - Constants::T) < Constants::eps || p.first[v] >= Constants::T) {
+            continue;
+        }
+        std::vector<int> res(m, 0);
+        while (v != u) {
+            res[p.second[v]] += edges[p.second[v]].getLinearTan();
+            v = edges[p.second[v]].from(v);
+        }
+        return res;
+    }
+    return {};
+}
+
 void Grapher::genPathQueries() {
     std::ofstream file("../output/graph.txt");
     pathQueries.clear();
@@ -216,6 +261,17 @@ void Grapher::genPathQueries() {
         }
     }
 }
+
+bool Grapher::isFeasible(std::vector<int> &cost) {
+    for (int i = 0; i < pathQueries.size(); i++) {
+        std::pair<std::vector<int>, std::vector<int> > p = dijkstra(pathQueries[i].first, cost);
+        if (p.first[pathQueries[i].second] < Constants::T) {
+            return false;
+        }
+    }
+    return true;
+}
+
 
 std::vector<Path> Grapher::getPotentialPaths(std::vector<int> &cost) {
     std::vector<Path> paths;
@@ -395,18 +451,18 @@ int Grapher::getNorm(std::vector<int> x) {
     return res;
 }
 
-std::vector<std::pair<Path, long double> > Grapher::samplingPath(std::vector<int> &cost) {
+std::vector<std::pair<Path, double> > Grapher::samplingPath(std::vector<int> &cost) {
     std::vector<std::pair<std::vector<int>, std::vector<int> > >dist;
     dist.resize(pathQueries.size());
     for (int i = 0; i < pathQueries.size(); i++) {
         dist[i] = dijkstra(pathQueries[i].second, cost);
     }
-    std::vector<std::pair<Path, long double> > paths;
+    std::vector<std::pair<Path, double> > paths;
 
     int num = getNumSampling();
     while (num--) {
         int id = MyRandom::randInt(0, pathQueries.size());
-        long double prob = 1.0 / pathQueries.size();
+        double prob = 1.0 / pathQueries.size();
         int s = pathQueries[id].first, t = pathQueries[id].second;
         if (dist[id].first[s] >= Constants::T) {
             continue;
@@ -465,3 +521,4 @@ long long Grapher::budgetFunction(Path path, std::vector<int> cost) {
     }
     return std::min(pot, 1LL * Constants::T);
 }
+

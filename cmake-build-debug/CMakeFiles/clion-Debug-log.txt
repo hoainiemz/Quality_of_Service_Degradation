@@ -1,4 +1,0 @@
-/snap/clion/341/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles" -S /home/hoainiem/CLionProjects/Quality_of_Service_Degradation -B /home/hoainiem/CLionProjects/Quality_of_Service_Degradation/cmake-build-debug
--- Configuring done (0.0s)
--- Generating done (0.0s)
--- Build files have been written to: /home/hoainiem/CLionProjects/Quality_of_Service_Degradation/cmake-build-debug

@@ -1,3 +1,0 @@
-/home/hoainiem/CLionProjects/Quality_of_Service_Degradation/cmake-build-debug/CMakeFiles/Quality_of_Service_Degradation.dir
-/home/hoainiem/CLionProjects/Quality_of_Service_Degradation/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/hoainiem/CLionProjects/Quality_of_Service_Degradation/cmake-build-debug/CMakeFiles/rebuild_cache.dir

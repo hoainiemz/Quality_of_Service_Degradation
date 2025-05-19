@@ -12,14 +12,18 @@ public:
     static int N;
     static int T;
     static double edgeDensity;
+    static int edgeType;
     static int numPathQueries;
+    static double eps;
 
     // SA constants
     static int q;
-    static long double alpha;
-    static long double epsilon;
-    static long double delta;
+    static double alpha;
+    static double epsilon;
+    static double delta;
 
+    // LR constants
+    static double LR_eps;
 };
 
 
